@@ -9,7 +9,6 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'master') {
                         sh """
-                        sudo chmod 777 /var/run/docker.sock
                         docker login -u $dockerhub_USR -p $dockerhub_PSW
                         docker build -t mohab5897/app:$BUILD_NUMBER .
                         docker push mohab5897/app:$BUILD_NUMBER
