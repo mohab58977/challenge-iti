@@ -1,13 +1,11 @@
-
-
 pipeline {
-    agent { label 'container' }
+    agent { label 'agent' }
     environment {
         dockerhub=credentials('Docker_Hub')
     }
     stages {
         stage('Build & Deploy') {
-     steps {
+            steps {
                 script {
                     if (env.BRANCH_NAME == 'master') {
                         sh """
@@ -16,8 +14,8 @@ pipeline {
                         docker push mohab5897/app:$BUILD_NUMBER
                         echo ${BUILD_NUMBER} > ../build
                         """
-                } else if (env.BRANCH_NAME == 'stage' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'test') {
-                withCredentials([file(credentialsId: 'cfg', variable: 'cfg')]){
+                    } else if (env.BRANCH_NAME == 'stage' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'test') {
+                        withCredentials([file(credentialsId: 'cfg', variable: 'cfg')]){
                         sh """
                             export BUILD_NUMBER=\$(cat ../build)
                        
@@ -26,16 +24,14 @@ pipeline {
                         rm -f Deployment/deploy
                         kubectl apply --kubeconfig=${cfg} -f Deployment/
                         """
-                 }
+                        } 
+                      }
                 } 
 
-                }
             }
-
-
-    post {
-        success {
-            echo 'This will run only if successful'
         }
+
+
+    
     }
 }
