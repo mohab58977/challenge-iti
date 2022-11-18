@@ -14,7 +14,7 @@ pipeline {
                         docker push mohab5897/app:$BUILD_NUMBER
                         echo ${BUILD_NUMBER} > ../build
                         """
-                    } else if (env.BRANCH_NAME == 'stage' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'test') {
+                    } else if ( env.BRANCH_NAME == 'dev') {
                        
                 withCredentials([file(credentialsId: 'my', variable: 'my')]){
 
