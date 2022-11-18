@@ -23,7 +23,7 @@ pipeline {
                             gcloud container clusters get-credentials app-cluster --region europe-west3 --project project-for-mohab
                             export BUILD_NUMBER=\$(cat ../build)
                            sed -i 's/BUILD_NUMBER/${env.BUILD_NUMBER}/g' Deployment/deploy.yaml
-y
+                        cat Deployment/deploy.yaml 
                         kubectl apply -f Deployment/
                         """
                          } 
