@@ -23,7 +23,7 @@ pipeline {
                         mv Deployment/deploy.yaml Deployment/deploy
                         cat Deployment/deploy | envsubst > Deployment/deploy.yaml
                         rm -f Deployment/deploy
-                        kubectl apply -f Deployment/
+                        kubectl apply --kubeconfig=${cfg} -f Deployment/
                         """
                          } 
                       }
