@@ -14,17 +14,19 @@ pipeline {
                         docker push mohab5897/app:$BUILD_NUMBER
                         echo ${BUILD_NUMBER} > ../build
                         """
-                    } else if (env.BRANCH_NAME == 'stage' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'test') {
-                        // withCredentials([file(credentialsId: 'cfg', variable: 'cfg')]){
-                        sh """
+                    } else if ( env.BRANCH_NAME == 'dev') {
+                       
+                withCredentials([file(credentialsId: 'my', variable: 'my')]){
+
+                    sh """
+                            gcloud auth activate-service-account  my-service-account@project-for-mohab.iam.gserviceaccount.com --key-file="$my" --project=project-for-mohab
+                            gcloud container clusters get-credentials app-cluster --region europe-west3 --project project-for-mohab
                             export BUILD_NUMBER=\$(cat ../build)
-                        gcloud container clusters get-credentials app-cluster --region europe-west3 --project project-for-mohab
-                        mv Deployment/deploy.yaml Deployment/deploy
-                        cat Deployment/deploy | envsubst > Deployment/deploy.yaml
-                        rm -f Deployment/deploy
+                           sed -i 's/version/${env.BUILD_NUMBER}/g' Deployment/deploy.yaml
+                        cat Deployment/deploy.yaml 
                         kubectl apply -f Deployment/
                         """
-                        // } 
+                         } 
                       }
                 } 
 
