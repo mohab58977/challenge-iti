@@ -16,10 +16,10 @@ pipeline {
                         """
                     } else if (env.BRANCH_NAME == 'stage' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'test') {
                        
-                withCredentials([file(credentialsId: 'sa', variable: 'sa')]){
+                withCredentials([file(credentialsId: 'my-service-account', variable: 'my-service-account')]){
 
                     sh """
-                            gcloud auth activate-service-account --key-file="$sa"
+                            gcloud auth activate-service-account --key-file="${my-service-account}"
                             gcloud container clusters get-credentials app-cluster --region europe-west3 --project project-for-mohab
                             export BUILD_NUMBER=\$(cat ../build)
                         mv Deployment/deploy.yaml Deployment/deploy
