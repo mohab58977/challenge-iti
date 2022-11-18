@@ -22,7 +22,7 @@ pipeline {
                             gcloud auth activate-service-account  my-service-account@project-for-mohab.iam.gserviceaccount.com --key-file="$my" --project=project-for-mohab
                             gcloud container clusters get-credentials app-cluster --region europe-west3 --project project-for-mohab
                             export BUILD_NUMBER=\$(cat ../build)
-                           sed -i 's/BUILD_NUMBER/${env.BUILD_NUMBER}/g' Deployment/deploy.yaml
+                           sed -i 's/version/${env.BUILD_NUMBER}/g' Deployment/deploy.yaml
                         cat Deployment/deploy.yaml 
                         kubectl apply -f Deployment/
                         """

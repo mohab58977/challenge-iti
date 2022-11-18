@@ -15,8 +15,7 @@ spec:
         app: demo
     spec:
       containers:
-        - image: mohab5897/app:BUILD_NUMBER
-          name: blackhouse
+        - image: mohab5897/app:version
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
