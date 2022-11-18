@@ -1,6 +1,7 @@
 
+
 pipeline {
-    agent { label 'agent' }
+    agent { label 'container' }
     environment {
         dockerhub=credentials('Docker_Hub')
     }
@@ -30,6 +31,7 @@ pipeline {
 
                 }
             }
+
 
     post {
         success {
