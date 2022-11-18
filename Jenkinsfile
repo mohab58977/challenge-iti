@@ -15,16 +15,16 @@ pipeline {
                         echo ${BUILD_NUMBER} > ../build
                         """
                     } else if (env.BRANCH_NAME == 'stage' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'test') {
-                        withCredentials([file(credentialsId: 'cfg', variable: 'cfg')]){
+                        // withCredentials([file(credentialsId: 'cfg', variable: 'cfg')]){
                         sh """
                             export BUILD_NUMBER=\$(cat ../build)
-                       
+                        gcloud container clusters get-credentials app-cluster --region europe-west3 --project project-for-mohab
                         mv Deployment/deploy.yaml Deployment/deploy
                         cat Deployment/deploy | envsubst > Deployment/deploy.yaml
                         rm -f Deployment/deploy
-                        kubectl apply --kubeconfig=${cfg} -f Deployment/
+                        kubectl apply -f Deployment/
                         """
-                        } 
+                        // } 
                       }
                 } 
 
