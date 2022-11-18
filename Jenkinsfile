@@ -16,13 +16,13 @@ pipeline {
                         """
                     } else if (env.BRANCH_NAME == 'stage' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'test') {
                         // withCredentials([file(credentialsId: 'cfg', variable: 'cfg')]){
-            //  gcloud container clusters get-credentials app-cluster --region europe-west3 --project project-for-mohab
 
                         sh """
                             export BUILD_NUMBER=\$(cat ../build)
                         mv Deployment/deploy.yaml Deployment/deploy
                         cat Deployment/deploy | envsubst > Deployment/deploy.yaml
                         rm -f Deployment/deploy
+                        gcloud container clusters get-credentials app-cluster --region europe-west3 --project project-for-mohab
                         kubectl apply -f Deployment/
                         """
                         // } 
