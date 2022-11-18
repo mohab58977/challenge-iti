@@ -15,9 +15,9 @@ spec:
         app: demo
     spec:
       containers:
-      - image: mohab5897/app:version
-        name: blackhouse
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8000
-        resources: {}
+        - image: mohab5897/app:version
+          name: blackhouse
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          resources: {}
